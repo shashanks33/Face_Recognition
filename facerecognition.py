@@ -13,8 +13,8 @@ from keras.models import load_model
 
 image_size = [224, 224]
 
-train_path = './Data/Train'
-test_path = "./Data/Test"
+train_path = './Dataset/faces/train'
+test_path = "./Dataset/faces/test"
 
 vgg = VGG16(input_shape = image_size + [3], weights='imagenet', include_top=False)
 
@@ -22,8 +22,8 @@ vgg = VGG16(input_shape = image_size + [3], weights='imagenet', include_top=Fals
 for layer in vgg.layers:
     layer.trainable=False
 
-# Obtain the number of classes. Since we have 3 people to be identified we get 3 classes
-folders = glob("./Data/Train/*")
+# Obtain the number of classes. Since we have 7 people to be identified we get 7 classes
+folders = glob("./Dataset/faces/train/*")
 
 x = Flatten()(vgg.output)
 
@@ -60,7 +60,7 @@ train_set = train_datagen.flow_from_directory(
     class_mode='categorical',
 )
 
-train_set = train_datagen.flow_from_directory(
+test_set = test_datagen.flow_from_directory(
     './Data/Test',
     target_size=(224, 224),
     batch_size=32,
